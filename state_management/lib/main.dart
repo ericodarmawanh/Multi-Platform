@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:state_management/main_page_copy.dart';
 
 import 'main_page.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainPage(),
+      home: MainPageCopy(),
     );
   }
 }

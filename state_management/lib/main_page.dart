@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:state_management/second_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -41,7 +42,17 @@ class _MainPageState extends State<MainPage> {
               height: 20,
             ),
             ElevatedButton(
-                onPressed: () {}, child: const Text('Go to Second Page')),
+                onPressed: () async {
+                  number = await Navigator.push<int>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SecondPage(number: number),
+                          )) ??
+                      number;
+
+                  setState(() {});
+                },
+                child: const Text('Go to Second Page')),
           ],
         ),
       ),
