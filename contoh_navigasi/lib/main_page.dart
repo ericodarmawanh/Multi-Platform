@@ -1,3 +1,4 @@
+import 'package:contoh_navigasi/temp.dart';
 import 'package:contoh_navigasi/tombol.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -35,6 +36,7 @@ class MainPage extends StatelessWidget {
             Tombol(
                 text: 'Log Out',
                 onPressed: () {
+                  isLogin = false;
                   context.goNamed('login');
                 })
           ],

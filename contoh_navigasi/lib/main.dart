@@ -2,6 +2,7 @@ import 'package:contoh_navigasi/detail_page.dart';
 import 'package:contoh_navigasi/history_page.dart';
 import 'package:contoh_navigasi/login_page.dart';
 import 'package:contoh_navigasi/profile_page.dart';
+import 'package:contoh_navigasi/temp.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,6 +28,13 @@ class MyApp extends StatelessWidget {
         name: 'main',
         builder: (context, state) {
           return const MainPage();
+        },
+        redirect: (context, state) {
+          if (!isLogin) {
+            return '/login';
+          } else {
+            return null;
+          }
         },
         routes: [
           GoRoute(
