@@ -1,5 +1,6 @@
 import 'package:contoh_navigasi/tombol.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,8 +14,13 @@ class LoginPage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Tombol(text: 'Login'),
+          children: [
+            Tombol(
+              text: 'Login',
+              onPressed: () {
+                context.goNamed('main');
+              },
+            ),
           ],
         ),
       ),
