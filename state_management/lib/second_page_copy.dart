@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SecondPageCopy extends StatefulWidget {
+import 'bloc/counter_bloc.dart';
+
+class SecondPageCopy extends StatelessWidget {
   const SecondPageCopy({Key? key}) : super(key: key);
 
-  @override
-  State<SecondPageCopy> createState() => _SecondPageCopyState();
-}
-
-class _SecondPageCopyState extends State<SecondPageCopy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
           children: [
-            Text(
-              '0',
-              style: const TextStyle(fontSize: 30),
+            BlocBuilder<CounterBloc, CounterState>(
+              builder: (context, state) {
+                return Text(
+                  state is CounterRunning ? '${state.number}' : '-',
+                  style: const TextStyle(fontSize: 30),
+                );
+              },
             ),
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(onPressed: () {}, child: const Text('Increment')),
+            ElevatedButton(
+                onPressed: () {
+                  context.read<CounterBloc>().add(const Increment(amount: 2));
+                },
+                child: const Text('Increment')),
             const SizedBox(
               height: 20,
             ),

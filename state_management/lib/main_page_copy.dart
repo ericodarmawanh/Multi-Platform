@@ -1,16 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:state_management/second_page_copy.dart';
 
-class MainPageCopy extends StatefulWidget {
+import 'bloc/counter_bloc.dart';
+
+class MainPageCopy extends StatelessWidget {
   const MainPageCopy({Key? key}) : super(key: key);
 
-  @override
-  State<MainPageCopy> createState() => _MainPageCopyState();
-}
-
-class _MainPageCopyState extends State<MainPageCopy> {
   @override
   Widget build(BuildContext context) {
     log('Build Main Page');
@@ -22,14 +20,22 @@ class _MainPageCopyState extends State<MainPageCopy> {
       body: Center(
         child: Column(
           children: [
-            Text(
-              '0',
-              style: const TextStyle(fontSize: 30),
+            BlocBuilder<CounterBloc, CounterState>(
+              builder: (context, state) {
+                return Text(
+                  state is CounterRunning ? '${state.number}' : '-',
+                  style: const TextStyle(fontSize: 30),
+                );
+              },
             ),
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(onPressed: () {}, child: const Text('Increment')),
+            ElevatedButton(
+                onPressed: () {
+                  context.read<CounterBloc>().add(const Increment());
+                },
+                child: const Text('Increment')),
             const SizedBox(
               height: 20,
             ),
