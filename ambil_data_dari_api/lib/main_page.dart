@@ -11,7 +11,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   User? user;
-  List<User>? users;
 
   @override
   Widget build(BuildContext context) {
@@ -43,23 +42,31 @@ class _MainPageState extends State<MainPage> {
                   // }
                 },
                 child: const Text('Ambil Data')),
-            ElevatedButton(
-                onPressed: () async {
-                  users = await UserServices().getListUserData(2);
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       users = await UserServices().getListUserData(2);
 
-                  if (users != null) {
-                    setState(() {});
+            //       if (users != null) {
+            //         setState(() {});
+            //       }
+            //     },
+            //     child: const Text('Ambil List Data')),
+            FutureBuilder(
+                future: UserServices().getListUserData(1),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: (snapshot.data ?? [])
+                          .map((e) => Text(
+                                e.toString(),
+                                style: const TextStyle(fontSize: 20),
+                              ))
+                          .toList(),
+                    );
+                  } else {
+                    return const SizedBox();
                   }
-                },
-                child: const Text('Ambil List Data')),
-            Column(
-              children: (users ?? [])
-                  .map((e) => Text(
-                        e.toString(),
-                        style: const TextStyle(fontSize: 20),
-                      ))
-                  .toList(),
-            )
+                })
           ],
         ),
       ),
