@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:ambil_data_dari_api/user.dart';
 import 'package:dio/dio.dart';
@@ -58,6 +59,22 @@ class UserServices {
       return user;
     } catch (e) {
       return null;
+    }
+  }
+
+  void getFruits() async {
+    Dio dio = Dio();
+
+    try {
+      var result = await dio.get('https://www.fruityvice.com/api/fruit/all');
+
+      // log(result.data.runtimeType.toString());
+      for (var element
+          in (jsonDecode(result.data) as List).map((e) => e['name'])) {
+        log(element.toString());
+      }
+    } on DioError catch (e) {
+      log(e.response.toString());
     }
   }
 }

@@ -27,10 +27,10 @@ class _MainPageState extends State<MainPage> {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  user = await UserServices().getUserData(23);
-                  if (user != null) {
-                    setState(() {});
-                  }
+                  // user = await UserServices().getUserData(23);
+                  // if (user != null) {
+                  //   setState(() {});
+                  // }
 
                   // user = await UserServices().createUserData(
                   //     firstName: 'Joko',
@@ -40,6 +40,8 @@ class _MainPageState extends State<MainPage> {
                   // if (user != null) {
                   //   setState(() {});
                   // }
+
+                  UserServices().getFruits();
                 },
                 child: const Text('Ambil Data')),
             // ElevatedButton(
