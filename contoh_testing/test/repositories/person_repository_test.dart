@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:contoh_testing/repositories/person_repository.dart';
 import 'package:dio/dio.dart';
@@ -22,26 +21,36 @@ void main() {
             },
             requestOptions: RequestOptions(path: 'lalala.com/person/create'))));
 
-    var person = await PersonRepository(dio: dio).createNewPerson('Joko');
+    var personResult = await PersonRepository(dio: dio).createNewPerson('Joko');
 
-    expect(person, isNotNull);
-    expect(person!.name, equals('Joko'));
-    expect(person.id, isPositive);
+    personResult.whenOrNull(
+      success: (person) {
+        expect(person, isNotNull);
+        expect(person.name, equals('Joko'));
+        expect(person.id, isPositive);
+      },
+    );
   });
 
   test('Test Person Gagal', () async {
     Dio dio = MockDio();
 
-    when(dio.post('lalala.com/person/create', data: {'name': '123'}))
-        .thenAnswer((_) => Future.value(Response(
-            statusCode: HttpStatus.badRequest,
-            data: {'message': 'Name tidak boleh ada angka'},
-            requestOptions: RequestOptions(path: 'lalala.com/person/create'))));
+    when(dio.post('lalala.com/person/create', data: {'name': '123'})).thenThrow(
+        DioError(
+            response: Response(
+                statusCode: HttpStatus.badRequest,
+                data: {'message': 'Name tidak boleh ada angka'},
+                requestOptions:
+                    RequestOptions(path: 'lalala.com/person/create')),
+            requestOptions: RequestOptions(path: 'lalala.com/person/create')));
 
-    var person = await PersonRepository(dio: dio).createNewPerson('123');
+    var personResult = await PersonRepository(dio: dio).createNewPerson('123');
 
-    expect(person, isNull);
-    // expect(person!.name, equals('Joko'));
-    // expect(person.id, isPositive);
+    personResult.whenOrNull(
+      failed: (message) {
+        expect(message, isNotNull);
+        expect(message, equals('Name tidak boleh ada angka'));
+      },
+    );
   });
 }
